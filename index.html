@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="부산 해양 관광 맞춤 동선 플래너, 바라는 바다" />
+  <title>바라는 바다 | 부산 여행 동선 플래너</title>
+  <style>
+    :root { --navy:#073e55; --blue:#087eaa; --sky:#e5f6fb; --sand:#fff7e7; --ink:#15313d; --muted:#55707a; --orange:#ff9d45; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); font-family:Arial,"Noto Sans KR",sans-serif; background:#f7fbfc; }
+    button, select { font:inherit; }
+    .hero { color:white; padding:24px max(5vw,20px) 108px; background:linear-gradient(120deg,rgba(4,54,77,.93),rgba(7,126,170,.75)), url("https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1800&q=80") center/cover; }
+    nav { max-width:1140px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { font-size:1.28rem; font-weight:800; letter-spacing:-.04em; } .brand span { color:#9ce4ff; }
+    .language { min-height:42px; border:1px solid #ccecf7; border-radius:10px; padding:0 11px; background:#ffffff18; color:white; } .language option { color:#15313d; }
+    .intro { max-width:760px; margin:86px auto 0; text-align:center; } .eyebrow { color:#b9efff; font-weight:700; letter-spacing:.08em; font-size:.85rem; }
+    h1 { font-size:clamp(2.25rem,6vw,4.5rem); line-height:1.13; letter-spacing:-.07em; margin:14px 0; } .intro p { font-size:clamp(1rem,2vw,1.2rem); line-height:1.7; margin:0; }
+    main { max-width:1080px; margin:-62px auto 0; padding:0 20px 64px; }
+    .planner { background:white; border-radius:22px; box-shadow:0 16px 45px #073e5520; padding:clamp(20px,4vw,34px); }
+    .planner h2 { margin:0; font-size:1.5rem; } .hint { color:var(--muted); margin:8px 0 22px; line-height:1.55; }
+    .controls { display:grid; grid-template-columns:1.25fr 1fr 1fr auto; gap:12px; } select { width:100%; min-height:54px; padding:0 14px; border:1px solid #cfe2e8; border-radius:12px; color:var(--ink); background:white; }
+    .primary { min-height:54px; border:0; border-radius:12px; padding:0 22px; color:white; font-weight:800; cursor:pointer; background:var(--blue); } .primary:hover { background:#056a91; }
+    .note { margin:18px 0 0; font-size:.84rem; color:#6c7c83; }
+    .section-title { margin:52px 0 18px; display:flex; justify-content:space-between; align-items:end; gap:12px; } h2 { letter-spacing:-.04em; } .section-title p { margin:0; color:var(--muted); }
+    .dashboard { display:grid; grid-template-columns:1.35fr .9fr; gap:20px; } .card { background:white; border-radius:18px; padding:24px; border:1px solid #e3eef1; }
+    .map { min-height:350px; overflow:hidden; position:relative; border-radius:14px; background:linear-gradient(135deg,#c8e9ed 0 43%,#d7f0f4 43% 100%); }
+    .map:before { content:""; position:absolute; width:130%; height:22px; background:#f2debe; transform:rotate(-19deg); top:47%; left:-20%; box-shadow:0 55px 0 #f2debe,0 -86px 0 #f2debe; opacity:.8; }
+    .route { position:absolute; width:54%; height:48%; border:4px dashed var(--orange); border-left:0; border-bottom:0; border-radius:0 90px 0 0; transform:rotate(-26deg); top:29%; left:22%; }
+    .pin { position:absolute; width:34px; height:34px; display:grid; place-items:center; border-radius:50% 50% 50% 0; color:white; font-size:.8rem; font-weight:bold; transform:rotate(-45deg); background:var(--blue); box-shadow:0 4px 8px #073e5540; } .pin b { transform:rotate(45deg); } .pin.one{left:17%;top:57%}.pin.two{left:43%;top:38%;background:#ee7650}.pin.three{left:65%;top:23%;background:#198d77}.pin.four{left:70%;top:65%;background:#795cb5}
+    .map-label { position:absolute; bottom:14px; left:14px; padding:8px 11px; border-radius:8px; font-size:.78rem; background:#ffffffdd; }
+    .summary { display:flex; flex-direction:column; } .summary h3 { margin:0 0 16px; font-size:1.2rem; } .stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; } .stat { padding:13px; border-radius:12px; background:var(--sky); } .stat b { display:block; margin-top:5px; font-size:1.12rem; }.route-list { list-style:none; padding:0; margin:20px 0 0; }.route-list li { padding:13px 0 13px 31px; position:relative; border-bottom:1px solid #edf1f2; line-height:1.35; }.route-list li:before { content:counter(item); counter-increment:item; position:absolute; left:0; top:11px; width:22px; height:22px; display:grid; place-items:center; border-radius:50%; color:white; font-size:.75rem; background:var(--blue); }.route-list { counter-reset:item; }.route-list small { color:var(--muted); display:block; margin-top:3px; }
+    .recommendations { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }.place { overflow:hidden; padding:0; }.place img { display:block; width:100%; height:155px; object-fit:cover; }.place div { padding:18px; }.tag { display:inline-block; padding:5px 9px; border-radius:999px; color:#0b697f; background:#dff5f8; font-size:.77rem; font-weight:bold; }.place h3 { margin:10px 0 7px; }.place p { margin:0; color:var(--muted); font-size:.91rem; line-height:1.55; }
+    footer { text-align:center; padding:28px 20px; color:#57717a; font-size:.84rem; }.hidden { display:none; }
+    @media (max-width:760px) { .hero { padding-bottom:88px; }.intro { margin-top:65px; text-align:left; }.controls,.dashboard,.recommendations { grid-template-columns:1fr; }.planner { border-radius:18px; }.map { min-height:290px; }.section-title { display:block; }.section-title p { margin-top:7px; }.place img { height:180px; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <nav><div class="brand">바라는 <span>바다</span></div><select class="language" id="language" aria-label="언어 선택"><option value="ko">한국어</option><option value="en">English</option><option value="ja">日本語</option><option value="zh">中文</option></select></nav>
+    <div class="intro"><div class="eyebrow">BUSAN OCEAN TRAVEL PLANNER</div><h1 id="headline">부산 바다를, 내 취향대로</h1><p id="subline">낯선 부산에서도 여행 목적과 이동수단에 맞는 해양 관광 동선을 한눈에 확인하세요.</p></div>
+  </header>
+  <main>
+    <section class="planner" aria-labelledby="planner-title"><h2 id="planner-title">나만의 바다 여행 만들기</h2><p class="hint">출발 지역, 여행 목적, 이동수단을 고르면 예시 동선을 보여드려요.</p><div class="controls"><select id="start" aria-label="출발 지역"><option>부산역</option><option>김해공항</option><option>해운대역</option></select><select id="purpose" aria-label="여행 목적"><option value="scenery">바다 풍경 · 야경</option><option value="food">해산물 · 맛집</option><option value="activity">해양 레저</option></select><select id="transport" aria-label="이동수단"><option value="transit">대중교통</option><option value="walk">도보 중심</option><option value="car">자동차</option></select><button class="primary" id="planButton">동선 만들기</button></div><p class="note">※ 날씨, 혼잡도, 영업시간, 주차 정보는 실제 서비스 연동 전의 예시 데이터입니다.</p></section>
+    <div class="section-title"><div><h2>오늘의 추천 동선</h2><p id="routeDescription">부산역 출발 · 바다 풍경 · 대중교통 기준</p></div></div>
+    <section class="dashboard"><article class="card"><div class="map" role="img" aria-label="부산 관광지 예시 경로 지도"><div class="route"></div><div class="pin one"><b>1</b></div><div class="pin two"><b>2</b></div><div class="pin three"><b>3</b></div><div class="pin four"><b>4</b></div><span class="map-label">예시 경로 지도 · 실제 위치와 다를 수 있어요</span></div></article><aside class="card summary"><h3 id="summaryTitle">바다 풍경 하루 코스</h3><div class="stats"><div class="stat">예상 시간<b id="duration">6시간 20분</b></div><div class="stat">이동 거리<b id="distance">22.4km</b></div></div><ol class="route-list" id="routeList"></ol></aside></section>
+    <div class="section-title"><div><h2>동선 속 들러볼 곳</h2><p>여행 목적에 맞춘 예시 추천이에요.</p></div></div>
+    <section class="recommendations" id="recommendations"></section>
+  </main>
+  <footer>바라는 바다 · 부산 해양 관광 웹앱 프로토타입 · 모든 시간과 정보는 예시이며 확인이 필요합니다.</footer>
+  <script>
+    const data = {
+      scenery:{ title:'바다 풍경 하루 코스', places:[['감천문화마을','색감 있는 골목에서 여행을 시작해요.'],['송도해상케이블카','바다 위를 가로지르는 풍경을 즐겨요.'],['흰여울문화마을','절벽길과 바다를 함께 만나요.'],['더베이101','해운대의 야경으로 하루를 마무리해요.']], cards:[['해운대 블루라인파크','해안선을 따라 달리는 풍경 열차','https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=700&q=80'],['청사포 다릿돌전망대','파도 가까이에서 보는 푸른 바다','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=700&q=80'],['광안리 해변','노을과 광안대교 야경 감상','https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=700&q=80']] },
+      food:{ title:'바다 맛집 하루 코스', places:[['자갈치시장','싱싱한 해산물과 활기찬 시장을 만나요.'],['국제시장','부산의 골목 먹거리를 즐겨요.'],['민락수변공원','바다를 보며 휴식해요.'],['광안리 해변','야경과 함께 저녁을 마무리해요.']], cards:[['자갈치시장','부산 대표 수산시장 산책','https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=700&q=80'],['민락수변공원','바다를 보며 쉬어가는 공간','https://images.unsplash.com/photo-1470214304380-aadaedcfff1b?auto=format&fit=crop&w=700&q=80'],['광안리 해변','저녁 시간의 바다 풍경','https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80']] },
+      activity:{ title:'해양 레저 하루 코스', places:[['송정해수욕장','서핑과 해변 산책을 즐겨요.'],['청사포','등대와 해안길을 둘러봐요.'],['해운대 해수욕장','바다 액티비티를 체험해요.'],['동백섬','해안 산책으로 마무리해요.']], cards:[['송정해수욕장','서핑 초보자도 찾는 해변','https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=700&q=80'],['해운대 해수욕장','도심에서 즐기는 바다 활동','https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80'],['동백섬 산책로','바다를 따라 걷는 휴식 코스','https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=700&q=80']] }
+    };
+    function render(){ const purpose=document.querySelector('#purpose').value, transport=document.querySelector('#transport').value, start=document.querySelector('#start').value, d=data[purpose]; const mode={transit:'대중교통',walk:'도보 중심',car:'자동차'}[transport]; const times={transit:['6시간 20분','22.4km'],walk:['7시간 10분','12.8km'],car:['5시간 30분','31.6km']}[transport]; document.querySelector('#summaryTitle').textContent=d.title; document.querySelector('#routeDescription').textContent=`${start} 출발 · ${document.querySelector('#purpose').selectedOptions[0].text} · ${mode} 기준`; document.querySelector('#duration').textContent=times[0]; document.querySelector('#distance').textContent=times[1]; document.querySelector('#routeList').innerHTML=d.places.map((p,i)=>`<li><strong>${p[0]}</strong><small>${p[1]} · ${i===0?'출발 후 약 25분':'이전 장소에서 약 20~35분'}</small></li>`).join(''); document.querySelector('#recommendations').innerHTML=d.cards.map(c=>`<article class="card place"><img src="${c[2]}" alt="${c[0]} 관련 바다 풍경"><div><span class="tag">${document.querySelector('#purpose').selectedOptions[0].text}</span><h3>${c[0]}</h3><p>${c[1]}<br><small>운영 정보는 방문 전 확인이 필요합니다.</small></p></div></article>`).join(''); }
+    document.querySelector('#planButton').addEventListener('click',render); document.querySelector('#language').addEventListener('change',e=>{const t={ko:['부산 바다를, 내 취향대로','낯선 부산에서도 여행 목적과 이동수단에 맞는 해양 관광 동선을 한눈에 확인하세요.'],en:['Busan sea, your way','Plan a marine trip around your travel purpose and transport.'],ja:['あなたらしい釜山の海へ','目的と移動手段に合う観光ルートを見つけましょう。'],zh:['按你的喜好探索釜山海洋','根据旅行目的与交通方式规划路线。']}[e.target.value];document.querySelector('#headline').textContent=t[0];document.querySelector('#subline').textContent=t[1];}); render();
+  </script>
+</body>
+</html>
